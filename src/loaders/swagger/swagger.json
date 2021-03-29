@@ -5,41 +5,43 @@
     "description": "## This is a base api to start new projects.",
     "version": "0.0.1",
     "contact": {
-      "email": "gastonm3112@gmail.com"
+      "email": "fervaldes11@gmail.com"
     }
   },
-
-  "servers": [
+  
+  "servers":[
     {
-      "url": "http://localhost:5000/api/v1",
-      "description": "Desarrollo"
+      "url":"http://localhost:4000/api/v1",
+      "description": "Desarrollo"  
     },
     {
-      "url": "https://node-06-rest-server.herokuapp.com/api/v1",
-      "description": "Producción"
-    }
+      "url":"https://node-06-restserver.herokuapp.com/api/v1",
+      "description": "Producción"  
+    } 
   ],
-  "tags": [
+  "tags": [    
     {
       "name": "users",
       "description": "Operations about users."
     }
   ],
-  "paths": {
+  "paths": {    
     "/users/": {
       "get": {
-        "tags": ["users"],
-        "summary": "Return a list of existing users",
-        "description": "",
+        "tags": [
+          "users"
+        ],
+        "summary": "Get a list of all existing users.",
+        "description": "",             
         "responses": {
           "200": {
-            "description": "A JSON Array of users.",
+            "description": "The array of users in JSON format.",
             "content": {
-              "application/json": {
-                "schema": {
+              "application/json":{
+                "schema":{
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/User"
+                  "items":{
+                    "$ref": "#/components/schemas/User"                    
                   }
                 }
               }
@@ -48,7 +50,9 @@
         }
       },
       "post": {
-        "tags": ["users"],
+        "tags": [
+          "users"
+        ],
         "summary": "Create a new user.",
         "description": "",
         "requestBody": {
@@ -69,19 +73,21 @@
     },
     "/users/{id}": {
       "put": {
-        "tags": ["users"],
-        "summary": "Update an existing user by providing the correct id.",
-        "description": "",
-        "parameters": [
+        "tags": [
+          "users"
+        ],
+        "summary": "Update an existing user by providing the id.",
+        "description": "",           
+        "parameters":[          
           {
             "name": "id",
             "in": "path",
             "description": "The id of the user that needs to be updated.",
             "required": true,
             "schema": {
-              "type": "integer"
+              "type":"integer"
             }
-          }
+          }          
         ],
         "requestBody": {
           "content": {
@@ -91,36 +97,38 @@
               }
             }
           }
-        },
+        }, 
         "responses": {
           "200": {
             "description": "The user updated",
-            "content": {
-              "application/json": {
-                "schema": {
+            "content":{
+              "application/json":{
+                "schema":{
                   "type": "object",
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/User" 
                 }
-              }
+              }              
             }
           }
         }
       },
       "delete": {
-        "tags": ["users"],
-        "summary": "Delete an existing user by providing the correct id.",
+        "tags": [
+          "users"
+        ],
+        "summary": "Delete an existing user by providing the id.",
         "description": "",
-        "parameters": [
+        "parameters":[          
           {
             "name": "id",
             "in": "path",
             "description": "The id of the user that needs to be deleted.",
             "required": true,
             "schema": {
-              "type": "integer"
+              "type":"integer"
             }
-          }
-        ],
+          }          
+        ],     
         "responses": {
           "200": {
             "description": "User deleted."
@@ -132,13 +140,20 @@
   "components": {
     "schemas": {
       "User": {
-        "required": ["id"],
+        "required": [
+          "id"
+        ],
         "type": "object",
         "properties": {
-          "name": {
+          "id":{
+            "description": "The user id.",
+            "type": "integer",          
+            "example": "3"
+          },
+          "name":{
             "description": "The user name.",
-            "type": "string",
-            "example": "Gastón"
+            "type":"string",          
+            "example":"Adrian"
           }
         }
       }
