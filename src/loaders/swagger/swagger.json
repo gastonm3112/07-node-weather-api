@@ -1,137 +1,144 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "API Rest base repo.",
-    "description": "## This is a base api to start new projects.",
+    "title": "Weather Api.",
+    "description": "## Api to get the weather of a city.",
     "version": "0.0.1",
     "contact": {
-      "email": "fervaldes11@gmail.com"
+      "email": "gastonm3112@gmail.com"
     }
   },
-  
-  "servers":[
+
+  "servers": [
     {
-      "url":"http://localhost:4000/api/v1",
-      "description": "Desarrollo"  
+      "url": "http://localhost:5000/api/v1",
+      "description": "Desarrollo"
     },
     {
-      "url":"https://node-06-restserver.herokuapp.com/api/v1",
-      "description": "Producción"  
-    } 
-  ],
-  "tags": [    
-    {
-      "name": "users",
-      "description": "Operations about users."
+      "url": "https://node-07-weather-api.herokuapp.com/api/v1",
+      "description": "Producción"
     }
   ],
-  "paths": {    
-    "/users/": {
+  "tags": [
+    {
+      "name": "cities",
+      "description": "Operations about cities."
+    }
+  ],
+  "paths": {
+    "/cities/{city}": {
       "get": {
-        "tags": [
-          "users"
+        "parameters": [
+          {
+            "in": "path",
+            "name": "city",
+            "description": "name of the city",
+            "required": true,
+            "Schema": {
+              "type": "string"
+            }
+          }
         ],
-        "summary": "Get a list of all existing users.",
-        "description": "",             
+        "tags": ["cities"],
+        "summary": "Get a list of cities.",
+        "description": "",
         "responses": {
           "200": {
-            "description": "The array of users in JSON format.",
+            "description": "The data array of cities in JSON format.",
             "content": {
-              "application/json":{
-                "schema":{
+              "application/json": {
+                "schema": {
                   "type": "array",
-                  "items":{
-                    "$ref": "#/components/schemas/User"                    
+                  "items": {
+                    "$ref": "#/components/schemas/Cities"
                   }
                 }
               }
             }
           }
         }
-      },
-      "post": {
-        "tags": [
-          "users"
-        ],
-        "summary": "Create a new user.",
-        "description": "",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
+      }
+    },
+    "/weather/{city}/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "city",
+            "description": "name of the city",
+            "required": true,
+            "Schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "description": "id of the city",
+            "required": true,
+            "Schema": {
+              "type": "string"
             }
           }
-        },
+        ],
+        "tags": ["weather"],
+        "summary": "Get the weather of a city by providing a city and an id.",
+        "description": "",
         "responses": {
-          "201": {
-            "description": "User created."
+          "200": {
+            "description": "The data object of the weather of the city",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Weather"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/users/{id}": {
-      "put": {
-        "tags": [
-          "users"
-        ],
-        "summary": "Update an existing user by providing the id.",
-        "description": "",           
-        "parameters":[          
+    "/weather/": {
+      "get": {
+        "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "description": "The id of the user that needs to be updated.",
+            "in": "query",
+            "name": "lon",
+            "description": "Pass the long of the city",
             "required": true,
-            "schema": {
-              "type":"integer"
+            "Schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0
             }
-          }          
+          },
+          {
+            "in": "query",
+            "name": "lat",
+            "description": "Pass the latitude of the city",
+            "required": true,
+            "Schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0
+            }
+          }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
+        "tags": ["weather"],
+        "summary": "Get the weather of a city by providing long and lat.",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "The data object of the weather of the city",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Weather"
+                }
               }
             }
-          }
-        }, 
-        "responses": {
-          "200": {
-            "description": "The user updated",
-            "content":{
-              "application/json":{
-                "schema":{
-                  "type": "object",
-                  "$ref": "#/components/schemas/User" 
-                }
-              }              
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "users"
-        ],
-        "summary": "Delete an existing user by providing the id.",
-        "description": "",
-        "parameters":[          
-          {
-            "name": "id",
-            "in": "path",
-            "description": "The id of the user that needs to be deleted.",
-            "required": true,
-            "schema": {
-              "type":"integer"
-            }
-          }          
-        ],     
-        "responses": {
-          "200": {
-            "description": "User deleted."
           }
         }
       }
@@ -139,21 +146,55 @@
   },
   "components": {
     "schemas": {
-      "User": {
-        "required": [
-          "id"
-        ],
+      "Cities": {
+        "required": ["city"],
         "type": "object",
         "properties": {
-          "id":{
-            "description": "The user id.",
-            "type": "integer",          
-            "example": "3"
+          "id": {
+            "description": "The city id.",
+            "type": "string",
+            "example": "neighborhood.289809"
           },
-          "name":{
-            "description": "The user name.",
-            "type":"string",          
-            "example":"Adrian"
+          "name": {
+            "description": "The city name.",
+            "type": "string",
+            "example": "Miami, Florida"
+          },
+          "log": {
+            "description": "The long of the city.",
+            "type": "integer",
+            "example": "-80.1299"
+          },
+          "lat": {
+            "description": "The lat of the city.",
+            "type": "integer",
+            "example": "25.7944"
+          }
+        }
+      },
+      "Weather": {
+        "required": ["city", "id"],
+        "type": "object",
+        "properties": {
+          "description": {
+            "description": "weather description.",
+            "type": "string",
+            "example": "lluvia ligera"
+          },
+          "temperature": {
+            "description": "The city temperature.",
+            "type": "integer",
+            "example": "27.98"
+          },
+          "temperatureMin": {
+            "description": "The min temperature.",
+            "type": "integer",
+            "example": "19.95"
+          },
+          "temperatureMax": {
+            "description": "The maximum temperature.",
+            "type": "integer",
+            "example": "29.15"
           }
         }
       }
