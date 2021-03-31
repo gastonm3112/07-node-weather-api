@@ -55,6 +55,17 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         }
       }
@@ -92,6 +103,17 @@
                 "schema": {
                   "type": "object",
                   "$ref": "#/components/schemas/Weather"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -136,6 +158,17 @@
                 "schema": {
                   "type": "object",
                   "$ref": "#/components/schemas/Weather"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error message in JSON format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -195,6 +228,21 @@
             "description": "The maximum temperature.",
             "type": "integer",
             "example": "29.15"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "description": "Error code",
+            "type": "integer",
+            "example": "500"
+          },
+          "message": {
+            "description": "Error message",
+            "type": "string",
+            "example": "No encontrado"
           }
         }
       }
